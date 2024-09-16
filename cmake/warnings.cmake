@@ -1,3 +1,25 @@
 macro(set_warnings)
+    if(${ARGC} GREATER_EQUAL 1)
+            set(target_name ${ARGV0})
+    else()
+        message(FATAL_ERROR "Please give target as argument to set_warnings()")
+    endif()
 
+    set(COMPILER_WARNINGS "")
+
+    if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+        set(COMPILER_WARNINGS "${COMPILER_WARNINGS} -Wall -Wextra -Wformat=2 -Wpedantic")
+        set(COMPILER_WARNINGS "${COMPILER_WARNINGS} -Wshadow -Wunused -Wnon-virtual-dtor -Woverloaded-virtual")
+        set(COMPILER_WARNINGS "${COMPILER_WARNINGS} -Wold-style-cast -Wcast-qual -Wcast-align")
+        set(COMPILER_WARNINGS "${COMPILER_WARNINGS} -Wsign-conversion")
+        set(COMPILER_WARNINGS "${COMPILER_WARNINGS} -Wnull-dereference")
+        set(COMPILER_WARNINGS "${COMPILER_WARNINGS} -Werror")
+    endif()
+
+    #set(COMPILER_WARNINGS_DEBUG "${COMPILER_WARNINGS} -g -O1")
+    #set(COMPILER_WARNINGS_RELEASE "${COMPILER_WARNINGS} -O3 ")
+
+    #target_compile_options(${target_name} PUBLIC "$<$<CONFIG:DEBUG>:${COMPILER_WARNINGS_DEBUG}>")
+    #target_compile_options(${target_name} PUBLIC "$<$<CONFIG:RELEASE>:${COMPILER_WARNINGS_RELEASE}>")
+    target_compile_options(${target_name} PUBLIC "${COMPILER_WARNINGS}")
 endmacro()

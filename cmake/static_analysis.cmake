@@ -19,6 +19,7 @@ macro(enable_cppcheck)
             "--inconclusive"
             "--force"
             "--inline-suppr"
+            "--std=c++${CMAKE_CXX_STANDARD}"
             "--suppressions-list=${CMAKE_SOURCE_DIR}/CppCheckSuppressions.txt"
     )
   endif()
